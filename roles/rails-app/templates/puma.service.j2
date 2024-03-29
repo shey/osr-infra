@@ -1,0 +1,24 @@
+# {{ ansible_managed }}
+
+[Unit]
+Description=puma
+Requires=network-online.target
+
+[Service]
+User={{ app_user }}
+Group={{ app_user }}
+
+Environment=MALLOC_ARENA_MAX=2
+WorkingDirectory=/home/{{ app_user }}/{{ app_name }}/current
+ExecStart=/home/{{ app_user }}/.rbenv/shims/bundle exec puma -e production -C /etc/rails/puma.rb
+ExecStop=/home/{{ app_user }}/.rbenv/bin/rbenv exec bundle exec pumactl -F /etc/rails/puma.rb stop
+ExecReload=/home/{{ app_user }}/.rbenv/bin/rbenv exec bundle exec pumactl -F /etc/rails/puma.rb phased-restart
+
+KillMode=process
+Restart=always
+
+# This will default to "bundler" if not specified
+SyslogIdentifier=rails-web
+
+[Install]
+WantedBy=multi-user.target

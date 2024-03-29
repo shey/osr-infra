@@ -1,0 +1,55 @@
+- name: there can be only one 'rails_env'
+  template:
+    src: rails_env.sh.j2
+    dest: /etc/profile.d/rails_env.sh
+    owner: root
+    group: root
+    mode: 0755
+  tags: ['rails-env']
+
+- name: create directory puma and sidekiq configs
+  ansible.builtin.file:
+    path: "/etc/rails/"
+    state: directory
+    owner: "{{ app_user }}"
+    group: "{{ app_user }}"
+  tags: ['puma-config', 'sidekiq-config']
+
+- name: Add puma config
+  template:
+    src: puma.rb.j2
+    dest: /etc/rails/puma.rb
+    owner: "{{ app_user }}"
+    group: "{{ app_user }}"
+    mode: 0644
+  tags: ['puma-config']
+
+- name: Add puma systemd script
+  template:
+    src: puma.service.j2
+    dest: "/etc/systemd/system/puma.service"
+    owner: root
+    group: root
+    mode: 0644
+  tags: ['puma-config', 'rails-env']
+
+- name: Just force systemd to reread configs
+  ansible.builtin.systemd:
+    daemon_reload: true
+  tags: ['puma-config', 'rails-env']
+
+- name: enable puma service
+  ansible.builtin.systemd:
+    name: puma
+    state: restarted
+    enabled: yes
+  tags: ['puma-config']
+
+- name: Allow traffic to 3000 on internal network for rails exporter
+  community.general.ufw:
+    rule: allow
+    interface: "{{ vpc_interface_name }}"
+    direction: in
+    port: 3000
+  tags: ['firewall', 'rails_exporter-firewall']
+

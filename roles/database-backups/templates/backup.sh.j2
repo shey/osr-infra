@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+
+# {{ ansible_managed }}
+
+DB_NAME={{ database_name }}
+DB_USER={{ app_db_user_name }}
+DB_PASS={{ v_app_db_user_password }}
+
+BUCKET_NAME={{ s3_backup_bucket_name }}
+
+TIMESTAMP=$(date +%F_%T | tr ':' '-')
+
+TEMP_FILE=$(mktemp tmp.XXXXXXXXXX)
+
+S3_FILE="s3://$BUCKET_NAME/httpscout-database-backup-$TIMESTAMP"
+
+PGPASSWORD=$DB_PASS pg_dump --no-acl -h localhost -U $DB_USER $DB_NAME > $TEMP_FILE
+
+s3cmd put $TEMP_FILE $S3_FILE --encrypt
+
+rm "$TEMP_FILE"

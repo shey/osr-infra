@@ -1,0 +1,26 @@
+# {{ ansible_managed }}
+
+pp "Gemfile context: #{ENV["BUNDLE_GEMFILE"]}"
+
+max_threads_count = ENV.fetch("RAILS_MAX_THREADS", 2)
+min_threads_count = ENV.fetch("RAILS_MIN_THREADS", max_threads_count)
+threads min_threads_count, max_threads_count
+
+# Specifies the `worker_timeout` threshold that Puma will use to wait before
+worker_timeout 28
+
+bind "tcp://127.0.0.1:3000"
+bind "tcp://{{ binding_ip }}:3000"
+
+pidfile "/home/{{ app_user }}/{{ app_name }}/shared/pids/puma.pid"
+
+# Specifies the `environment` that Puma will run in.
+environment ENV.fetch("RAILS_ENV") { "development" }
+
+prune_bundler
+
+workers 2
+
+on_worker_boot do
+  ENV["BUNDLE_GEMFILE"] = "/home/{{ app_user }}/{{ app_name }}/current/Gemfile"
+end

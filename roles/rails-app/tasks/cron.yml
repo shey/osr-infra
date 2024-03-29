@@ -1,0 +1,10 @@
+# 8 UTC is 3 EST
+- name: Delete Old Pings
+  ansible.builtin.cron:
+    name: "delete-old-pings"
+    minute: "4"
+    hour: "8"
+    job: "/bin/bash -lc \"cd lrt/current && bin/rails pings:prune\"  2>&1 | logger -t [rails-cron]"
+  become_user: "{{ app_user }}"
+  become: yes
+  tags: ['cron', 'rails-cron']

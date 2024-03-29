@@ -1,0 +1,80 @@
+- set_fact: ra_ruby_version="3.2.2"
+  tags: ['ruby-build']
+
+- name: Install jemalloc libs + rustc for a slimmer, faster ruby
+  apt:
+    state: latest
+    update_cache: yes
+    name: [
+      "libjemalloc-dev",
+      "libjemalloc2",
+      "rustc"
+    ]
+  tags: ['ruby-build']
+
+- name: checkout rbenv_repo for selected users
+  git:
+    repo: 'https://github.com/rbenv/rbenv.git'
+    dest: '/home/{{ app_user }}/.rbenv'
+    version: 'v1.2.0'
+    accept_hostkey: yes
+    force: yes
+  become: yes
+  become_user: "{{ app_user }}"
+
+- name: add rbenv initialization to profile system-wide
+  template:
+    src: rbenv_user.sh.j2
+    dest: /etc/profile.d/rbenv.sh
+    owner: root
+    group: root
+    mode: 0755
+  become: yes
+
+- name: Check if ruby-build exists
+  stat:
+    path: "/home/{{ app_user }}/.rbenv/plugins/ruby-build"
+  register: ruby_build_check
+
+- name: Clone ruby-build for the deploy user
+  git:
+    repo: "https://github.com/rbenv/ruby-build.git"
+    dest: "/home/{{ app_user }}/.rbenv/plugins/ruby-build"
+    update: "yes"
+    accept_hostkey: "yes"
+  when: not ruby_build_check.stat.exists
+
+- name: Set ownership on rbenv
+  file:
+    path: "/home/{{ app_user }}/.rbenv/"
+    owner: "{{ app_user }}"
+    group: "{{ app_user }}"
+    recurse: "yes"
+
+- name: Set owership on ruby-build
+  file:
+    path: "/home/{{ app_user }}/.rbenv/ruby-build"
+    owner: "{{ app_user }}"
+    group: "{{ app_user }}"
+    recurse: yes
+
+- name: install ruby {{ ra_ruby_version }} with yjit and jemalloc
+  ansible.builtin.shell:
+    cmd: "RUBY_CONFIGURE_OPTS='--with-jemalloc --enable-yjit' /home/{{ app_user }}/.rbenv/bin/rbenv install -f -v {{ ra_ruby_version }}"
+  become_user: "{{ app_user }}"
+  become: yes
+  tags: ['ruby-build']
+
+- name: make ruby {{ ra_ruby_version }} the global default (for this user)
+  ansible.builtin.shell:
+    cmd: "/home/{{ app_user }}/.rbenv/bin/rbenv global {{ ra_ruby_version }}"
+  become_user: "{{ app_user }}"
+  become: yes
+  tags: ['ruby-build']
+
+- name: install bundler
+  ansible.builtin.shell:
+    cmd: "/home/{{ app_user }}/.rbenv/shims/gem install bundler -v 2.4.21"
+  become_user: "{{ app_user }}"
+  become: yes
+  tags: ['ruby-build']

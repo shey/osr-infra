@@ -1,0 +1,5 @@
+- name: "allow http"
+  ufw:
+    rule: allow
+    port: 80
+    proto: tcp

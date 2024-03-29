@@ -1,0 +1,7 @@
+prod-osr ansible_user=root ansible_host=143.198.41.246
+
+[omnibus]
+prod-osr
+
+[production:children]
+appservers

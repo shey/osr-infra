@@ -1,0 +1,17 @@
+# {{ ansible_managed }}
+
+# puma/rails
+{{ app_user }} ALL=(ALL) NOPASSWD:/usr/sbin/service puma start
+{{ app_user }} ALL=(ALL) NOPASSWD:/usr/sbin/service puma stop
+{{ app_user }} ALL=(ALL) NOPASSWD:/usr/sbin/service puma restart
+{{ app_user }} ALL=(ALL) NOPASSWD:/usr/sbin/service puma reload
+{{ app_user }} ALL=(ALL) NOPASSWD:/usr/sbin/service puma upgrade
+
+# sidekiq
+{{ app_user }} ALL=(ALL) NOPASSWD:/usr/sbin/service sidekiq start
+{{ app_user }} ALL=(ALL) NOPASSWD:/usr/sbin/service sidekiq stop
+{{ app_user }} ALL=(ALL) NOPASSWD:/usr/sbin/service sidekiq restart
+{{ app_user }} ALL=(ALL) NOPASSWD:/usr/sbin/service sidekiq reload
+
+# slack notification
+{{ app_user }} ALL=(ALL) NOPASSWD: /usr/local/bin/slack-notify.sh *

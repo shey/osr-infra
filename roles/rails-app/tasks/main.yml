@@ -1,0 +1,7 @@
+- include: database.yml
+- include: sudo.yml
+- include: ruby.yml
+- include: puma.yml
+- include: sidekiq.yml
+- include: site.yml # nginx
+- include: cron.yml
