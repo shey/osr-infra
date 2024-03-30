@@ -1,4 +1,5 @@
-inventory/*/vault.yml
+inventory/group_vars/production/vault.yml
+inventory/group_vars/vagrant/vault.yml
 .password_file
 *.log
 *.DS_Store
