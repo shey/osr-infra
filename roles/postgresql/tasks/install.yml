@@ -5,7 +5,7 @@
 
 - name: add repo
   apt_repository:
-    repo: deb http://apt.postgresql.org/pub/repos/apt/ focal-pgdg main
+    repo: deb http://apt.postgresql.org/pub/repos/apt/ jammy-pgdg main
     state: present
 
 - name: add packages
@@ -23,4 +23,3 @@
       postgresql-15-repack,
       postgresql-15-hypopg,
     ]
-

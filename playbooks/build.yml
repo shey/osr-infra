@@ -9,9 +9,8 @@
     - { role: python, tags: ['python']}
     - { role: redis-server, tags: ['redis-server'] }
     - { role: postgresql, tags: ['postgresql'] }
-    - { role: configure-app, tags: ['configure-app', 'app'] }
+    - { role: nodejs, tags: ['nodejs'] }
     - { role: nginx-certbot, tags: ['certbot', 'nginx'] }
     - { role: nginx-reverse-proxy, tags: ['nginx'] }
-    - { role: nodejs, tags: ['nodejs'] }
     - { role: rails-app, tags: ['rails-app', 'app'] }
-    - { role: fail2ban, tags: [ 'fail2ban' ] }
+    - { role: configure-app, tags: ['configure-app', 'app'] }
