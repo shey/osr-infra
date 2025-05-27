@@ -29,5 +29,5 @@
   hosts: railservers
   become: yes
   roles:
-    - { role: configure-app, tags: ["configure-app", "app"] }
     - { role: rails-app, tags: ["rails-app", "app"] }
+    - { role: configure-app, tags: ["configure-app", "app"] }
