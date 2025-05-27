@@ -16,7 +16,7 @@ users:
 ## to enable SSL via Certbot/Letsencrypt
 using_ssl: True
 # actuall fqdn
-server_name: "opensourcerails.xyz"
+server_name: "opensourcerails.dev"
 letsencrypt_admin_email: "shey@shey.ca"
 
 # rails/app-y
