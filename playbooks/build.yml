@@ -10,7 +10,7 @@
     - { role: redis-server, tags: ['redis-server'] }
     - { role: postgresql, tags: ['postgresql'] }
     - { role: nodejs, tags: ['nodejs'] }
-    - { role: nginx-certbot, tags: ['certbot', 'nginx'] }
-    - { role: nginx-reverse-proxy, tags: ['nginx'] }
-    - { role: rails-app, tags: ['rails-app', 'app'] }
-    - { role: configure-app, tags: ['configure-app', 'app'] }
+#    - { role: nginx-certbot, tags: ['certbot', 'nginx'] }
+#    - { role: nginx-reverse-proxy, tags: ['nginx'] }
+#    - { role: rails-app, tags: ['rails-app', 'app'] }
+#    - { role: configure-app, tags: ['configure-app', 'app'] }

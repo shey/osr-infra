@@ -7,10 +7,11 @@ Requires=network-online.target
 [Service]
 User={{ app_user }}
 Group={{ app_user }}
-
-Environment=MALLOC_ARENA_MAX=2
+Environment=OTEL_SERVICE_NAME={{ app_name}}-rails
+Environment="MALLOC_CONF=narenas:2,dirty_decay_ms:1000,muzzy_decay_ms:1000,background_thread:true"
+Environment=RUBY_YJIT_ENABLE=1
 WorkingDirectory=/home/{{ app_user }}/{{ app_name }}/current
-ExecStart=/home/{{ app_user }}/.rbenv/shims/bundle exec puma -e production -C /etc/rails/puma.rb
+ExecStart=/home/{{ app_user }}/.rbenv/bin/rbenv exec bundle exec puma -e production -C /etc/rails/puma.rb
 ExecStop=/home/{{ app_user }}/.rbenv/bin/rbenv exec bundle exec pumactl -F /etc/rails/puma.rb stop
 ExecReload=/home/{{ app_user }}/.rbenv/bin/rbenv exec bundle exec pumactl -F /etc/rails/puma.rb phased-restart
 

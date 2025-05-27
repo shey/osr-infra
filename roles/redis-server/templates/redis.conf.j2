@@ -159,6 +159,7 @@ supervised no
 # nothing bad happens, the server will start and run normally.
 pidfile /run/redis/redis-server.pid
 
+
 # Specify the server verbosity level.
 # This can be one of:
 # debug (a lot of information, useful for development/testing)
@@ -193,7 +194,7 @@ databases 16
 #
 # However it is possible to force the pre-4.0 behavior and always show a
 # ASCII art logo in startup logs by setting the following option to yes.
-always-show-logo no
+always-show-logo yes
 
 ################################ SNAPSHOTTING  ################################
 #
@@ -217,7 +218,7 @@ always-show-logo no
 #
 #   save ""
 
-save 100 5
+save 200 1
 # save 300 10
 # save 100 10000
 
@@ -596,7 +597,7 @@ maxmemory 50mb
 #
 # The default is:
 #
-maxmemory-policy allkeys-lfu
+maxmemory-policy noeviction
 
 # LRU, LFU and minimal TTL algorithms are not precise algorithms but approximated
 # algorithms (in order to save memory), so you can tune it for speed or

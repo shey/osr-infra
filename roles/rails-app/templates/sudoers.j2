@@ -12,3 +12,6 @@
 {{ app_user }} ALL=(ALL) NOPASSWD:/usr/sbin/service sidekiq stop
 {{ app_user }} ALL=(ALL) NOPASSWD:/usr/sbin/service sidekiq restart
 {{ app_user }} ALL=(ALL) NOPASSWD:/usr/sbin/service sidekiq reload
+
+# slack notification
+{{ app_user }} ALL=(ALL) NOPASSWD: /usr/local/bin/slack-notify.sh *

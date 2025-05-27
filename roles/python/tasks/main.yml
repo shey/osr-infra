@@ -5,6 +5,6 @@
 
 - name: Install python (this will also install ubuntu's base python)
   apt:
-    name: [ python3.11, python3.11-dev, python3.11-venv, python3-pip ]
+    name: [ python3.11, python3.11-dev, python3.11-venv, python3-pip]
     state: present
   tags: ['python']

@@ -44,3 +44,12 @@
     state: restarted
     enabled: yes
   tags: ['puma-config']
+
+- name: Allow traffic to 3000 on internal network for rails exporter
+  community.general.ufw:
+    rule: allow
+    interface: "{{ vpc_interface_name }}"
+    direction: in
+    port: 3000
+  tags: ['firewall', 'rails_exporter-firewall']
+

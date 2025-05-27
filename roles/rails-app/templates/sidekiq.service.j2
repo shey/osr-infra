@@ -8,7 +8,8 @@ Requires=network-online.target
 User={{ app_user }}
 Group={{ app_user }}
 
-Environment=MALLOC_ARENA_MAX=2
+Environment="MALLOC_CONF=narenas:2,dirty_decay_ms:1000,muzzy_decay_ms:1000,background_thread:true"
+Environment=OTEL_SERVICE_NAME={{ app_name}}-sidekiq
 WorkingDirectory=/home/{{ app_user }}/{{ app_name }}/current
 ExecStart=/home/{{ app_user }}/.rbenv/shims/bundle exec sidekiq -e production -C config/sidekiq.yml
 ExecReload=/usr/bin/kill -TSTP $MAINPID

@@ -9,7 +9,7 @@ threads min_threads_count, max_threads_count
 # Specifies the `worker_timeout` threshold that Puma will use to wait before
 worker_timeout 28
 
-bind "tcp://127.0.0.1:5000"
+bind "tcp://127.0.0.1:3000"
 
 pidfile "/home/{{ app_user }}/{{ app_name }}/shared/pids/puma.pid"
 
