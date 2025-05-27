@@ -2,7 +2,6 @@
   hosts: appservers
   become: yes
   roles:
-    - { role: slack-notification, tags: ["slack-notification"] }
     - {
         role: database-backups,
         tags: ["backups", "db-backups", "database-backups"],
