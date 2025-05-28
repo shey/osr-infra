@@ -22,11 +22,3 @@
   become: true
   no_log: true
   tags: ['systemd', 'sidekiq-config', 'restart-app', 'sidekiq']
-
-- name: Allow traffic to 9394 on internal network for sidekiq exporter
-  community.general.ufw:
-    rule: allow
-    interface: "{{ vpc_interface_name }}"
-    direction: in
-    port: 9394
-  tags: ['firewall', 'sidekiq_exporter-firewall']
