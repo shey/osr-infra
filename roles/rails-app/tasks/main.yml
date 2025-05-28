@@ -3,5 +3,4 @@
 - include: ruby.yml
 - include: puma.yml
 - include: sidekiq.yml
-- include: site.yml # nginx config
-
+- include: site.yml # nginx

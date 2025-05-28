@@ -11,4 +11,11 @@
           -m "{{ letsencrypt_admin_email }}" --domain {{ server_name }}       \
           --webroot --webroot-path "/var/www/letsencrypt/"
 
+    - name: setup post renewal hooks
+      template:
+        src: nginx-reload.sh.j2
+        dest: "/etc/letsencrypt/renewal-hooks/post/nginx-reload.sh"
+        mode: 0750
+      tags: ['certbot-repair']
+
   when: using_ssl is defined and using_ssl == True

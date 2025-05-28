@@ -1,0 +1,33 @@
+---
+- name: Common setup for all hosts
+  hosts: all
+  become: yes
+  tags: [common]
+  roles:
+    - { role: base, tags: ["base"] }
+    - { role: hostname, tags: ["hostname"] }
+    - { role: sshd, tags: ["sshd", "config"] }
+    - { role: custom-users, tags: ["users"] }
+    - { role: fail2ban, tags: ["fail2ban"] }
+    - { role: swap, tags: ['swap'] }
+
+
+- name: Setup and configure Redis, PostgreSQL, and Nginx stack
+  hosts: appservers
+  become: yes
+  tags: [omni]
+  roles:
+    - { role: python, tags: ["python"] }
+    - { role: redis-server, tags: ["redis-server"] }
+    - { role: postgresql, tags: ["postgresql"] }
+    - { role: nginx-certbot, tags: ["certbot", "nginx"] }
+    - { role: nginx-reverse-proxy, tags: ["nginx"] }
+    - { role: nodejs, tags: ["nodejs"] }
+
+
+- name: Setup and configure a Rails host
+  hosts: railservers
+  become: yes
+  roles:
+    - { role: rails-app, tags: ["rails-app", "app"] }
+    - { role: configure-app, tags: ["configure-app", "app"] }

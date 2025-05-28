@@ -71,6 +71,7 @@ server {
 
   # Use Nginx to serve precompiled assets
   location ~ ^/(assets)/ {
+    gzip_static on;
     root /home/{{ app_user }}/{{ app_name }}/current/public;
     expires max;
     add_header Cache-Control private;

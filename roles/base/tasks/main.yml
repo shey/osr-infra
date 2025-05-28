@@ -18,3 +18,5 @@
     enabled: true
 
 - include: sysctl.yml
+
+- include: firewall.yml

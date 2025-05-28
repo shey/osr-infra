@@ -1,0 +1,11 @@
+- name: Get the version of the app deployed on $ENV
+  gather_facts: no
+  hosts: appservers
+  become: yes
+  tasks:
+    - name: Cat the versions file
+      command: "tail -n1 /home/{{ app_user }}/{{ app_name }}/revisions.log"
+      register: app_version
+
+    - name: print the version number
+      debug: msg="{{ app_version.stdout }}"

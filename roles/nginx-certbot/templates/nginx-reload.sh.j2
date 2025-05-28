@@ -1,0 +1,16 @@
+#!/bin/bash
+
+# Test the Nginx configuration
+if nginx -t; then
+    sudo systemctl reload nginx
+
+    if [ $? -eq 0 ]; then
+        echo "Nginx reloaded successfully."
+    else
+        echo "Failed to reload Nginx."
+        exit 1
+    fi
+else
+    echo "Nginx configuration is invalid. Aborting reload."
+    exit 1
+fi

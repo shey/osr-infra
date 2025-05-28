@@ -1,7 +1,11 @@
-prod-osr ansible_user=root ansible_host=143.198.41.246
+yyz-prod-osr ansible_user=root ansible_host=209.38.154.89
 
 [appservers]
-prod-osr
+yyz-prod-osr
+
+[railservers]
+yyz-prod-osr
 
 [production:children]
 appservers
+railservers

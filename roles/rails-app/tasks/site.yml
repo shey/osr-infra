@@ -5,7 +5,8 @@
     owner: www-data
     group: www-data
     mode: 0644
-  tags: ['nginx', 'nginx-site-config']
+  ignore_errors: true
+  tags: ["nginx", "nginx-site-config"]
 
 - name: enable app site
   file:
@@ -14,11 +15,12 @@
     owner: www-data
     group: www-data
     state: link
-  tags: ['nginx', 'nginx-site-config']
+  ignore_errors: true
+  tags: ["nginx", "nginx-site-config"]
 
-- name: reload nginx
+- name: restart nginx
   service:
     name: nginx
-    state: reloaded
-  tags: ['nginx', 'nginx-site-config']
-
+    state: restarted
+  ignore_errors: true
+  tags: ["nginx", "nginx-site-config"]

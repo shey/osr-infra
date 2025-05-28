@@ -1,7 +1,7 @@
 - name: Add sidekiq systemd file
   template:
     src: sidekiq.service.j2
-    dest: "/lib/systemd/system/sidekiq.service"
+    dest: "/etc/systemd/system/sidekiq.service"
     owner: root
     group: root
     mode: 0644
