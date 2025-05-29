@@ -1,4 +1,4 @@
-- set_fact: ra_ruby_version="3.2.2"
+- set_fact: ra_ruby_version="3.1.2"
   tags: ['ruby-build']
 
 - name: Install jemalloc libs + rustc for a slimmer, faster ruby
@@ -74,7 +74,7 @@
 
 - name: install bundler
   ansible.builtin.shell:
-    cmd: "/home/{{ app_user }}/.rbenv/shims/gem install bundler -v 2.4.21"
+    cmd: "/home/{{ app_user }}/.rbenv/shims/gem install bundler -v 2.2.16"
   become_user: "{{ app_user }}"
   become: yes
   tags: ['ruby-build']

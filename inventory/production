@@ -1,4 +1,4 @@
-yyz-prod-osr ansible_user=root ansible_host=209.38.154.89
+yyz-prod-osr ansible_user=linuxuser ansible_host=209.38.154.89
 
 [appservers]
 yyz-prod-osr
