@@ -71,7 +71,7 @@ server {
   ## NEW: serve any static file if it exists, fallback to Rails
   #########################################################
   location / {
-    root /home/{{ app_user }}/{{ app_name }}/current/public
+    root /home/{{ app_user }}/{{ app_name }}/current/public;
     try_files $uri @rails;
   }
 
