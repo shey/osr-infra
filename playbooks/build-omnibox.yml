@@ -28,6 +28,7 @@
 - name: Setup and configure a Rails host
   hosts: railservers
   become: yes
+  tags: [omni-app]
   roles:
     - { role: rails-app, tags: ["rails-app", "app"] }
     - { role: configure-app, tags: ["configure-app", "app"] }

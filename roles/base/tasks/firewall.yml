@@ -5,6 +5,7 @@
     state: present
     update_cache: yes
 
+
 - name: Set UFW default to deny incoming
   ufw:
     direction: incoming
