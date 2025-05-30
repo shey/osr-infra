@@ -35,7 +35,50 @@ server {
   add_header X-Content-Type-Options       "nosniff";
   add_header X-XSS-Protection             "1; mode=block";
 
+  # hostname must match
+  if ($host !~* ^({{ server_name }})$ ) {
+    return 444;
+  }
+
+  # avoid sending upstream to the app.
+  location ~ (\.php|\.aspx|\.asp|myadmin) {
+    return 404;
+  }
+
+  # to support certbot
+  location ^~ /.well-known/acme-challenge/ {
+    default_type "text/plain";
+    root /var/www/letsencrypt;
+  }
+
+  # Use Nginx to serve precompiled assets
+  location ~ ^/(assets)/ {
+    gzip_static on;
+    root /home/{{ app_user }}/{{ app_name }}/current/public;
+    expires max;
+    add_header Cache-Control private;
+  }
+
+  location = /500.html {
+    root /home/{{ app_user }}/{{ app_name }}/current/public;
+  }
+
+  location ~ ^/(robots.txt|sitemap.xml.gz|favicon.ico) {
+    root /home/{{ app_user }}/{{ app_name }}/current/public;
+  }
+
+  #########################################################
+  ## NEW: serve any static file if it exists, fallback to Rails
+  #########################################################
   location / {
+    root /home/{{ app_user }}/{{ app_name }}/current/public
+    try_files $uri @rails;
+  }
+
+  #########################################################
+  ## NEW: Rails fallback backend
+  #########################################################
+  location @rails {
     proxy_set_header        Host                  $host;
     proxy_set_header        X-Real-IP             $remote_addr;
     proxy_set_header        X-Forwarded-For       $proxy_add_x_forwarded_for;
@@ -47,46 +90,12 @@ server {
     #########################################################
     ## Rate limiting
     #########################################################
-    limit_req zone=zone_request_limit_second burst=13 nodelay;
-    limit_req zone=zone_request_limit_minute burst=72 nodelay;
+    limit_req zone=zone_request_limit_second burst=25 nodelay;
+    limit_req zone=zone_request_limit_minute burst=90 nodelay;
     limit_req_status 429;
 
     proxy_pass http://unicorn;
   }
 
-  # hostname must match
-  if ($host !~* ^({{ server_name }})$ ) {
-    return 444;
-  }
-
-  # avoid sending upstream to the app.
-  location ~ (\.php|\.aspx|\.asp|myadmin) {
-    return 404;
-  }
-
-  # Use Nginx to serve robots.txt
-  location ~ ^/(robots.txt|sitemap.xml.gz|favicon.ico) {
-    root /home/{{ app_user }}/{{ app_name }}/current/public;
-  }
-
-  # Use Nginx to serve precompiled assets
-  location ~ ^/(assets)/ {
-    gzip_static on;
-    root /home/{{ app_user }}/{{ app_name }}/current/public;
-    expires max;
-    add_header Cache-Control private;
-  }
-
-  # to support certbot
-  location ^~ /.well-known/acme-challenge/ {
-    default_type "text/plain";
-    root /var/www/letsencrypt;
-  }
-
-  # All error pages map to 500
   error_page 500 502 503 504 /500.html;
-
-  location = /500.html {
-    root /home/{{ app_user }}/{{ app_name }}/current/public;
-  }
 }
