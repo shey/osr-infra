@@ -63,10 +63,6 @@ server {
     root /home/{{ app_user }}/{{ app_name }}/current/public;
   }
 
-  location ~ ^/(robots.txt|sitemap.xml.gz|favicon.ico) {
-    root /home/{{ app_user }}/{{ app_name }}/current/public;
-  }
-
   #########################################################
   ## NEW: serve any static file if it exists, fallback to Rails
   #########################################################
