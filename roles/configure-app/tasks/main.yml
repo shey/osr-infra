@@ -19,5 +19,5 @@
   tags: ['app-config']
 
 - name: reload sidekiq
-  command: "sudo /usr/sbin/service sidekiq reload"
+  command: "sudo /usr/sbin/service sidekiq restart"
   tags: ['app-config']
