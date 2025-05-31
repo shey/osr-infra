@@ -14,7 +14,10 @@
     mode: 0640
   tags: ['postgresql-config', 'app-config']
 
-- name: reload the rails app
-  command: "sudo /usr/sbin/service unicorn reload"
-  when: force_reload is defined
+- name: reload rails
+  command: "sudo /usr/sbin/service puma reload"
+  tags: ['app-config']
+
+- name: reload sidekiq
+  command: "sudo /usr/sbin/service sidekiq reload"
   tags: ['app-config']
