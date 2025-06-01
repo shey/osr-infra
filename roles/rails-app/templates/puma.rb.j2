@@ -18,6 +18,8 @@ prune_bundler
 
 workers 2
 
+bind "tcp://127.0.0.1:3000"
+
 on_worker_boot do
   ENV["BUNDLE_GEMFILE"] = "/home/{{ app_user }}/{{ app_name }}/current/Gemfile"
 end
