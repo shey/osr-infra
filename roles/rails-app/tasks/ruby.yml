@@ -1,4 +1,4 @@
-- set_fact: ra_ruby_version="3.1.2"
+- set_fact: ra_ruby_version="3.3.8"
   tags: ['ruby-build']
 
 - name: Install jemalloc libs + rustc for a slimmer, faster ruby
