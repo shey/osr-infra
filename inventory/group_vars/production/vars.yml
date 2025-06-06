@@ -29,5 +29,5 @@ app_db_name:            "{{ app_name }}"
 app_settings_dir:       "/home/{{ app_user }}/{{ app_name }}/shared"
 app_from_email_address: "shey@shey.ca"
 
-s3_backup_bucket_name: ""
-s3_backups_access_key_id: ""
+s3_backup_bucket_name: "prod-osr-db"
+s3_backups_access_key_id: "{{ v_s3_backups_access_key_id }}"
